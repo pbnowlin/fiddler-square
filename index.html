@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Elijah — Violinist</title>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #fdf6e3;
+      --warm: #f5e6c8;
+      --brown: #5c3d1e;
+      --rust: #b85c2c;
+      --gold: #c8902a;
+      --ink: #2e1f0e;
+      --staff: #c4a97a;
+    }
+
+    body {
+      background-color: var(--cream);
+      font-family: 'Lora', serif;
+      color: var(--ink);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Sheet music staff lines */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 34px,
+        var(--staff) 34px,
+        var(--staff) 35px,
+        transparent 35px,
+        transparent 42px,
+        var(--staff) 42px,
+        var(--staff) 43px,
+        transparent 43px,
+        transparent 50px,
+        var(--staff) 50px,
+        var(--staff) 51px,
+        transparent 51px,
+        transparent 58px,
+        var(--staff) 58px,
+        var(--staff) 59px,
+        transparent 59px,
+        transparent 66px,
+        var(--staff) 66px,
+        var(--staff) 67px,
+        transparent 67px,
+        transparent 110px
+      );
+      opacity: 0.16;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 660px;
+      margin: 0 auto;
+      padding: 50px 32px 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Decorative floating notes */
+    .corner-note {
+      position: fixed;
+      color: var(--rust);
+      opacity: 0.15;
+      font-size: 2.5rem;
+      user-select: none;
+      animation: floatNote 5s ease-in-out infinite;
+      z-index: 0;
+    }
+    .corner-note:nth-child(1) { top: 28px; left: 22px; font-size: 5rem; color: var(--gold); opacity: 0.2; animation-delay: 0s; }
+    .corner-note:nth-child(2) { top: 32px; right: 36px; animation-delay: 1s; }
+    .corner-note:nth-child(3) { bottom: 60px; left: 44px; animation-delay: 2.5s; }
+    .corner-note:nth-child(4) { bottom: 90px; right: 55px; animation-delay: 0.8s; font-size: 1.8rem; }
+
+    @keyframes floatNote {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(5deg); }
+    }
+
+    /* Elijah's drawing */
+    .violin-wrap {
+      margin-top: 10px;
+      margin-bottom: 8px;
+      animation: violinBob 4.5s ease-in-out infinite, fadeUp 0.8s ease both;
+    }
+
+    @keyframes violinBob {
+      0%, 100% { transform: translateY(0) rotate(-4deg); }
+      50% { transform: translateY(-14px) rotate(-4deg); }
+    }
+
+    .violin-wrap img {
+      width: 200px;
+      height: 200px;
+      object-fit: contain;
+      mix-blend-mode: multiply;
+      filter: drop-shadow(4px 8px 12px rgba(92,61,30,0.3));
+    }
+
+    /* Name tag */
+    .name-tag {
+      background: var(--brown);
+      color: var(--cream);
+      font-family: 'Caveat', cursive;
+      font-size: 2.6rem;
+      font-weight: 700;
+      padding: 10px 36px 12px;
+      border-radius: 6px;
+      letter-spacing: 0.02em;
+      box-shadow: 4px 4px 0 var(--rust);
+      position: relative;
+      margin-bottom: 30px;
+    }
+
+
+    /* Main card */
+    .card {
+      background: rgba(255,255,255,0.55);
+      border: 2px solid var(--warm);
+      border-radius: 16px;
+      padding: 34px 40px 30px;
+      box-shadow: 0 8px 32px rgba(92,61,30,0.10), inset 0 1px 0 rgba(255,255,255,0.8);
+      text-align: center;
+      width: 100%;
+      position: relative;
+    }
+
+    .card::before, .card::after {
+      font-family: 'Caveat', cursive;
+      color: var(--gold);
+      opacity: 0.4;
+      font-size: 1.4rem;
+      position: absolute;
+    }
+    .card::before { content: '\266A \266A'; top: 10px; left: 16px; }
+    .card::after  { content: '\266B \266C'; bottom: 10px; right: 16px; }
+
+    .greeting {
+      font-family: 'Caveat', cursive;
+      font-size: 1.55rem;
+      font-weight: 600;
+      color: var(--rust);
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+
+    .body-text {
+      font-size: 1.05rem;
+      line-height: 1.85;
+      color: var(--ink);
+      font-style: italic;
+    }
+
+    .body-text strong {
+      font-style: normal;
+      color: var(--brown);
+    }
+
+    /* Location badge */
+    .location {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 28px;
+      background: var(--warm);
+      border: 1.5px solid var(--gold);
+      border-radius: 40px;
+      padding: 10px 22px;
+      font-family: 'Caveat', cursive;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--brown);
+      box-shadow: 2px 3px 0 rgba(200,144,42,0.3);
+    }
+
+    /* Footer */
+    .footer-note {
+      margin-top: 40px;
+      font-family: 'Caveat', cursive;
+      font-size: 1rem;
+      color: var(--brown);
+      opacity: 0.5;
+      letter-spacing: 0.05em;
+    }
+
+    /* Entrance animations */
+    .name-tag     { animation: fadeUp 0.9s 0.15s ease both; }
+    .card         { animation: fadeUp 1s 0.3s ease both; }
+    .location     { animation: fadeUp 0.9s 0.5s ease both; }
+    .footer-note  { animation: fadeUp 0.8s 0.7s ease both; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 500px) {
+      .page { padding: 44px 20px 60px; }
+      .card { padding: 26px 22px 24px; }
+      .name-tag { font-size: 2rem; }
+      .body-text { font-size: 0.98rem; }
+      .violin-wrap img { width: 160px; height: 160px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Decorative floating elements -->
+  <span class="corner-note">&#119070;</span>
+  <span class="corner-note">&#9833;</span>
+  <span class="corner-note">&#9835;</span>
+  <span class="corner-note">&#9834;</span>
+
+  <div class="page">
+
+    <!-- Elijah's violin drawing (embedded) -->
+    <div class="violin-wrap">
+      <img src="elijah-violin.jpeg" alt="Elijah's drawing of his violin" />
+    </div>
+
+
+    <div class="card">
+      <p class="greeting">Hi! Welcome to my little corner of the internet. &#128075;</p>
+      <p class="body-text">
+        My name is <strong>Elijah</strong>, and I&rsquo;m a <strong>kid violinist</strong>.
+        I&rsquo;m not old enough for bookings yet &mdash; give me a few years! &mdash;
+        but you might see me playing at the <strong>town Square</strong> on the weekends.
+        Come say hi!
+      </p>
+    </div>
+
+    <div class="location">
+      <span>&#128205;</span>
+      The Square &middot; Weekends
+    </div>
+
+    <p class="footer-note">&#9833; more music coming soon &#9833;</p>
+
+  </div>
+</body>
+</html>
